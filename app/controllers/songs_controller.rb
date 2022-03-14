@@ -6,10 +6,10 @@ class SongsController < ApplicationController
 
   def create
     song = song.new(
-      title: params[:title]
-      album: params[:album]
-      artist: params[:artist]
-      year: params[:year]
+      title: params[:title],
+      album: params[:album],
+      artist: params[:artist],
+      year: params[:year],
       country: params[:country]
     )
     song.save
@@ -18,6 +18,24 @@ class SongsController < ApplicationController
 
   def show
     song = Song.find_by(id: params[:id])
-    render json: photo.as_json
+    render json: song.as_json
   end
+
+  def update
+    song = Song.find_by(id: params[:id])
+    song.title = params[:title] || song.title
+    song.album = params[:album] || song.album
+    song.artist = params[:artist] || song.artist
+    song.year = params[:year] || song.year
+    song.country = params[:country] || song.country
+    song.save
+    render json: song.as_json
+  end
+
+  def destroy
+    song = Song.find_by(id: params[:id])
+    song.destroy
+    render json: {message: "Song eliminated."}
+  end
+
 end
